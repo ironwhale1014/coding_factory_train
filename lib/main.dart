@@ -1,4 +1,5 @@
 import 'package:coding_factory_train/common/component/custom_textformfield.dart';
+import 'package:coding_factory_train/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,22 +12,9 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(useMaterial3: false),
+      theme: ThemeData(useMaterial3: true, fontFamily: 'NotoSans'),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomTextFormField(
-                hintText: "input email", onChanged: (String value) {}),
-            CustomTextFormField(
-                hintText: "input password",
-                onChanged: (String value) {},
-                obscureText: true)
-          ],
-        ),
-      ),
+      home: LoginScreen(),
     );
   }
 }
