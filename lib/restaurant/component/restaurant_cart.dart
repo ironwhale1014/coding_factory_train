@@ -7,18 +7,18 @@ class RestaurantCard extends StatelessWidget {
       required this.image,
       required this.name,
       required this.tags,
-      required this.ratingCount,
+      required this.ratingsCount,
       required this.deliveryTime,
       required this.deliveryFee,
-      required this.rating});
+      required this.ratings});
 
   final Widget image;
   final String name;
   final List<String> tags;
-  final int ratingCount;
+  final int ratingsCount;
   final int deliveryTime;
   final int deliveryFee;
-  final double rating;
+  final double ratings;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +44,9 @@ class RestaurantCard extends StatelessWidget {
             SizedBox(height: 8),
             Row(
               children: [
-                _IconText(label: rating.toString(), icon: Icons.star),
+                _IconText(label: ratings.toString(), icon: Icons.star),
                 renderDot(),
-                _IconText(label: ratingCount.toString(), icon: Icons.receipt),
+                _IconText(label: ratingsCount.toString(), icon: Icons.receipt),
                 renderDot(),
                 _IconText(
                     label: "$deliveryTime min", icon: Icons.timelapse_outlined),
