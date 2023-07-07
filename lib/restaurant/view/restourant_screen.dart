@@ -1,6 +1,7 @@
 import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
+import 'package:coding_factory_train/restaurant/view/restaurant_detail.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -32,8 +33,14 @@ class RestaurantScreen extends StatelessWidget {
                 itemBuilder: (_, index) {
                   final item = snapshot.data![index];
                   final pItem = RestaurantModel.fromJson(item);
-                  return RestaurantCard.fromModel(
-                    pItem: pItem,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => RestaurantDetail()));
+                    },
+                    child: RestaurantCard.fromModel(
+                      pItem: pItem,
+                    ),
                   );
                 },
                 separatorBuilder: (_, index) => SizedBox(height: 10),
