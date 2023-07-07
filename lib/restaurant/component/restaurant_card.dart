@@ -1,4 +1,5 @@
 import 'package:coding_factory_train/common/const/colors.dart';
+import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantCard extends StatelessWidget {
@@ -11,6 +12,18 @@ class RestaurantCard extends StatelessWidget {
       required this.deliveryTime,
       required this.deliveryFee,
       required this.ratings});
+
+  factory RestaurantCard.fromModel({required RestaurantModel pItem}) {
+    return RestaurantCard(
+      image: Image.network(pItem.thumbUrl, fit: BoxFit.cover),
+      name: pItem.name,
+      tags: pItem.tags,
+      ratingsCount: pItem.ratingsCount,
+      deliveryTime: pItem.deliveryTime,
+      deliveryFee: pItem.deliveryFee,
+      ratings: pItem.ratings,
+    );
+  }
 
   final Widget image;
   final String name;
@@ -62,15 +75,16 @@ class RestaurantCard extends StatelessWidget {
     );
   }
 
-  Widget renderDot(){
+  Widget renderDot() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: Text("·",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12),),
+      child: Text(
+        "·",
+        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+      ),
     );
   }
 }
-
-
 
 class _IconText extends StatelessWidget {
   const _IconText({super.key, required this.label, required this.icon});
