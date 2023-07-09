@@ -30,6 +30,7 @@ class RestaurantDetail extends StatelessWidget {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
+            logger.d(snapshot.data!);
 
             final item = RestaurantDetailModel.fromJson(snapshot.data!);
 
