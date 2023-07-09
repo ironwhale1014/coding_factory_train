@@ -1,5 +1,6 @@
 import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
+import 'package:flutter/material.dart';
 
 class RestaurantDetailModel extends RestaurantModel {
   final String detail;
@@ -32,15 +33,10 @@ class RestaurantDetailModel extends RestaurantModel {
         deliveryFee: json["deliveryFee"],
         ratings: json["ratings"],
         detail: json["detail"],
-        product: json["products"].map<RestaurantProductModel>((x) =>
-           RestaurantProductModel(
-            id: x["id"],
-            name: x["name"],
-            imgUrl: x["imgUrl"],
-            detail: x["detail"],
-            price: x["price"],
-          )
-        ).toList());
+        product: json["products"]
+            .map<RestaurantProductModel>(
+                (x) => RestaurantProductModel.fromJson(json: x))
+            .toList());
   }
 }
 
@@ -58,4 +54,15 @@ class RestaurantProductModel {
     required this.detail,
     required this.price,
   });
+
+  factory RestaurantProductModel.fromJson(
+      {required Map<String, dynamic> json}) {
+    return RestaurantProductModel(
+      id: json["id"],
+      name: json["name"],
+      imgUrl: "$ip${json["imgUrl"]}",
+      detail: json["detail"],
+      price: json["price"],
+    );
+  }
 }
