@@ -2,6 +2,9 @@ import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:flutter/material.dart';
 
+
+
+
 class RestaurantDetailModel extends RestaurantModel {
   final String detail;
   final List<RestaurantProductModel> product;
