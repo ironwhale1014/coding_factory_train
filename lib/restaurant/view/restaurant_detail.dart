@@ -1,9 +1,11 @@
 import 'package:coding_factory_train/common/const/data.dart';
+import 'package:coding_factory_train/common/dio/dio.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/product/component/product_card.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_detail_model.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
+import 'package:coding_factory_train/restaurant/repository/restaurant_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -12,33 +14,36 @@ class RestaurantDetail extends StatelessWidget {
 
   final String id;
 
-  Future<Map<String, dynamic>> getRestaurantDetail() async {
+  Future<RestaurantDetailModel> getRestaurantDetail() async {
     final dio = Dio();
-    final accessToken = await storage.read(key: ACCESS_TOKEN);
-    final response = await dio.get("$ip/restaurant/$id",
-        options: Options(headers: {"authorization": 'Bearer $accessToken'}));
-    return response.data;
+
+    dio.interceptors.add(CustomInterceptor(storage: storage));
+
+    final repository = RestaurantRepository(dio, baseUrl: "$ip/restaurant");
+    return repository.getRestaurantDetail(id: id);
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
         title: "불타는 떡볶이",
-        child: FutureBuilder<Map<String, dynamic>>(
+        child: FutureBuilder<RestaurantDetailModel>(
           future: getRestaurantDetail(),
           builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print(snapshot.error.toString());
+            }
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
-            logger.d(snapshot.data!);
 
-            final item = RestaurantDetailModel.fromJson(snapshot.data!);
+            final item = snapshot.data!;
 
             return CustomScrollView(
               slivers: [
                 renderTop(model: item),
                 renderMenu(),
-                renderProducts(products: item.product)
+                renderProducts(products: item.products)
               ],
             );
           },

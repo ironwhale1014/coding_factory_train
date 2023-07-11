@@ -20,7 +20,7 @@ RestaurantDetailModel _$RestaurantDetailModelFromJson(
       deliveryFee: json['deliveryFee'] as int,
       ratings: (json['ratings'] as num).toDouble(),
       detail: json['detail'] as String,
-      product: (json['product'] as List<dynamic>)
+      products: (json['products'] as List<dynamic>)
           .map(
               (e) => RestaurantProductModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -39,7 +39,7 @@ Map<String, dynamic> _$RestaurantDetailModelToJson(
       'deliveryFee': instance.deliveryFee,
       'ratings': instance.ratings,
       'detail': instance.detail,
-      'product': instance.product,
+      'products': instance.products,
     };
 
 const _$RestaurantPriceRangeEnumMap = {
