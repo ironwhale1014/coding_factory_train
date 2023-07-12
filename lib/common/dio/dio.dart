@@ -11,8 +11,6 @@ class CustomInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    logger.d(options.uri);
-
     if (options.headers["accessToken"] == "true") {
       options.headers.remove("accessToken");
       final token = await storage.read(key: ACCESS_TOKEN);
@@ -31,8 +29,12 @@ class CustomInterceptor extends Interceptor {
   // 응답을 받을때
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // TODO: implement onResponse
-    super.onResponse(response, handler);
+    logger.d(
+        "[RESPONSE] ${response.requestOptions.method} ${response.requestOptions.uri}");
+
+
+
+    return super.onResponse(response, handler);
   }
 
   // 에러가 났을때
