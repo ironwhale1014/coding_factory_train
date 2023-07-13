@@ -1,6 +1,8 @@
 import 'package:coding_factory_train/common/const/data.dart';
+import 'package:coding_factory_train/common/dio/dio.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
+import 'package:coding_factory_train/restaurant/repository/restaurant_repository.dart';
 import 'package:coding_factory_train/restaurant/view/restaurant_detail.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +10,14 @@ import 'package:flutter/material.dart';
 class RestaurantScreen extends StatelessWidget {
   const RestaurantScreen({super.key});
 
-  Future<List> paginateRestaurant() async {
+  Future<List<RestaurantModel>> paginateRestaurant() async {
     final dio = Dio();
-    final accessToken = await storage.read(key: ACCESS_TOKEN);
 
-    final resp = await dio.get("$ip/restaurant",
-        options: Options(headers: {"authorization": 'Bearer $accessToken'}));
-    print(resp.data["data"]);
-    return resp.data["data"];
+    dio.interceptors.add(CustomInterceptor(storage: storage));
+
+    final repository = RestaurantRepository(dio, baseUrl: "$ip/restaurant");
+    final resp = await repository.paginate();
+    return resp.data;
   }
 
   @override
@@ -23,7 +25,7 @@ class RestaurantScreen extends StatelessWidget {
     return Center(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: FutureBuilder<List>(
+      child: FutureBuilder<List<RestaurantModel>>(
           future: paginateRestaurant(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
@@ -31,8 +33,7 @@ class RestaurantScreen extends StatelessWidget {
             }
             return ListView.separated(
                 itemBuilder: (_, index) {
-                  final item = snapshot.data![index];
-                  final pItem = RestaurantModel.fromJson(item);
+                  final pItem = snapshot.data![index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -43,7 +44,7 @@ class RestaurantScreen extends StatelessWidget {
                     ),
                   );
                 },
-                separatorBuilder: (_, index) => SizedBox(height: 10),
+                separatorBuilder: (_, index) => const SizedBox(height: 10),
                 itemCount: snapshot.data!.length);
           }),
     ));
