@@ -1,6 +1,17 @@
 import 'package:coding_factory_train/common/const/data.dart';
+import 'package:coding_factory_train/common/secure_storage/secure_storage.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+final dioProvider = Provider<Dio>((ref) {
+  final dio = Dio();
+  final storage = ref.watch(secureStorageProvider);
+
+  dio.interceptors.add(CustomInterceptor(storage: storage));
+
+  return dio;
+});
 
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;
@@ -9,8 +20,8 @@ class CustomInterceptor extends Interceptor {
 
   // 요청을 보낼때
   @override
-  void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(RequestOptions options,
+      RequestInterceptorHandler handler) async {
     if (options.headers["accessToken"] == "true") {
       options.headers.remove("accessToken");
       final token = await storage.read(key: ACCESS_TOKEN);
@@ -30,9 +41,8 @@ class CustomInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     logger.d(
-        "[RESPONSE] ${response.requestOptions.method} ${response.requestOptions.uri}");
-
-
+        "[RESPONSE] ${response.requestOptions.method} ${response.requestOptions
+            .uri}");
 
     return super.onResponse(response, handler);
   }
@@ -61,7 +71,7 @@ class CustomInterceptor extends Interceptor {
       try {
         final resp = await dio.post("$ip/auth/token",
             options:
-                Options(headers: {"authorization": "Bearer $refreshToken"}));
+            Options(headers: {"authorization": "Bearer $refreshToken"}));
         final accessToken = resp.data["accessToken"];
 
         final options = err.requestOptions;

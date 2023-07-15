@@ -6,34 +6,33 @@ import 'package:coding_factory_train/restaurant/repository/restaurant_repository
 import 'package:coding_factory_train/restaurant/view/restaurant_detail.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RestaurantScreen extends StatelessWidget {
+import '../../common/model/cursor_pagination_model.dart';
+
+class RestaurantScreen extends ConsumerWidget {
   const RestaurantScreen({super.key});
 
-  Future<List<RestaurantModel>> paginateRestaurant() async {
-    final dio = Dio();
-
-    dio.interceptors.add(CustomInterceptor(storage: storage));
-
-    final repository = RestaurantRepository(dio, baseUrl: "$ip/restaurant");
+  Future<List<RestaurantModel>> paginateRestaurant(WidgetRef ref) async {
+    final repository = ref.watch(restaurantRepositoryProvider);
     final resp = await repository.paginate();
     return resp.data;
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext, WidgetRef ref) {
     return Center(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: FutureBuilder<List<RestaurantModel>>(
-          future: paginateRestaurant(),
+      child: FutureBuilder<CursorPagination<RestaurantModel>>(
+          future: ref.watch(restaurantRepositoryProvider).paginate(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const CircularProgressIndicator();
             }
             return ListView.separated(
                 itemBuilder: (_, index) {
-                  final pItem = snapshot.data![index];
+                  final pItem = snapshot.data!.data[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -45,7 +44,7 @@ class RestaurantScreen extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (_, index) => const SizedBox(height: 10),
-                itemCount: snapshot.data!.length);
+                itemCount: snapshot.data!.data.length);
           }),
     ));
   }

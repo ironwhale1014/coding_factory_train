@@ -5,19 +5,21 @@ import 'package:coding_factory_train/common/component/custom_textformfield.dart'
 import 'package:coding_factory_train/common/const/colors.dart';
 import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
+import 'package:coding_factory_train/common/secure_storage/secure_storage.dart';
 import 'package:coding_factory_train/common/view/root_tap.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   String username = '';
   String password = '';
 
@@ -69,6 +71,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   String accessToken = resp.data["accessToken"];
                   String refreshToken = resp.data["refreshToken"];
+
+                  final storage = ref.read(secureStorageProvider);
 
                   await storage.write(key: ACCESS_TOKEN, value: accessToken);
                   await storage.write(key: REFRESH_TOKEN, value: refreshToken);

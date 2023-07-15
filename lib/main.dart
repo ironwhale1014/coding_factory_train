@@ -2,9 +2,10 @@ import 'package:coding_factory_train/common/component/custom_textformfield.dart'
 import 'package:coding_factory_train/common/view/splash_screen.dart';
 import 'package:coding_factory_train/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(_App());
+  runApp(const ProviderScope(child: _App()));
 }
 
 class _App extends StatelessWidget {
