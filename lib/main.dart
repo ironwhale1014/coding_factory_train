@@ -1,15 +1,16 @@
-import 'package:coding_factory_train/common/component/custom_text_field.dart';
-import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: _APP(),
-    theme: ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple)
+  runApp(ProviderScope(
+    child: MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: _APP(),
+      theme: ThemeData(
+        fontFamily: "NotoSans",
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)),
     ),
   ));
 }
@@ -22,5 +23,3 @@ class _APP extends StatelessWidget {
     return LoginScreen();
   }
 }
-
-

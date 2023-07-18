@@ -14,7 +14,7 @@ class CustomTextField extends StatelessWidget {
     this.errorText,
     this.autofocus = false,
     this.obscureText = false,
-    this.onChanged,
+    required this.onChanged,
   });
 
   @override
