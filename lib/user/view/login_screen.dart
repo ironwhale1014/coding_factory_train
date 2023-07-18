@@ -6,6 +6,7 @@ import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/const/util.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/common/secure_storage/secure_storage.dart';
+import 'package:coding_factory_train/common/view/roor_tap.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -74,8 +75,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           key: ACCESS_TOKEN, value: accessToken);
                       await storage.write(
                           key: REFRESH_TOKEN, value: refreshToken);
-
                       logger.d(await storage.read(key: ACCESS_TOKEN));
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (_) => RootTap()),
+                          (route) => false);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: PRIMARY_COLOR),
