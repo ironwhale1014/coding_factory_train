@@ -3,7 +3,7 @@ import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/const/util.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/common/secure_storage/secure_storage.dart';
-import 'package:coding_factory_train/common/view/roor_tap.dart';
+import 'package:coding_factory_train/common/view/root_tap.dart';
 import 'package:coding_factory_train/user/view/login_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // deleteToken();
     checkToken();
+  }
+
+  void deleteToken() async {
+    final storage = ref.read(secureStorageProvider);
+    storage.deleteAll();
   }
 
   void checkToken() async {
