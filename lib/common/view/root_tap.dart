@@ -1,4 +1,5 @@
 import 'package:coding_factory_train/common/layout/default_layout.dart';
+import 'package:coding_factory_train/restaurant/view/restaurant_screen.dart';
 import 'package:flutter/material.dart';
 
 class RootTap extends StatefulWidget {
@@ -27,8 +28,7 @@ class _RootTapState extends State<RootTap> with SingleTickerProviderStateMixin {
     controller.dispose();
   }
 
-
-  void tapListener(){
+  void tapListener() {
     setState(() {
       selectedIndex = controller.index;
     });
@@ -57,7 +57,7 @@ class _RootTapState extends State<RootTap> with SingleTickerProviderStateMixin {
           controller: controller,
           physics: const NeverScrollableScrollPhysics(),
           children: const [
-            Center(child: Text("홈")),
+            RestaurantScreen(),
             Center(child: Text("음식")),
             Center(child: Text("주문")),
             Center(child: Text("프로필")),
