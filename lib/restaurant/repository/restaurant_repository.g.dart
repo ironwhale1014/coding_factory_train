@@ -22,7 +22,8 @@ class _RestaurantRepository implements RestaurantRepository {
   Future<CursorPagination<RestaurantModel>> paginate() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<CursorPagination<RestaurantModel>>(Options(
@@ -57,3 +58,25 @@ class _RestaurantRepository implements RestaurantRepository {
     return requestOptions;
   }
 }
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$restaurantRepositoryHash() =>
+    r'998b8a08454b1632f11d01a9d42162ad900216ec';
+
+/// See also [restaurantRepository].
+@ProviderFor(restaurantRepository)
+final restaurantRepositoryProvider = Provider<RestaurantRepository>.internal(
+  restaurantRepository,
+  name: r'restaurantRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$restaurantRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef RestaurantRepositoryRef = ProviderRef<RestaurantRepository>;
+// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

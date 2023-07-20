@@ -1,6 +1,5 @@
 import 'package:coding_factory_train/common/const/colors.dart';
 import 'package:coding_factory_train/common/const/data.dart';
-import 'package:coding_factory_train/common/const/util.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/common/secure_storage/secure_storage.dart';
 import 'package:coding_factory_train/common/view/root_tap.dart';
