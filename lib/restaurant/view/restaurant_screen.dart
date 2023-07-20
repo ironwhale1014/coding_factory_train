@@ -18,16 +18,8 @@ class RestaurantScreen extends ConsumerWidget {
 
     return ListView.separated(
         itemBuilder: (context, index) {
-          return RestaurantCard(
-            image: Image.asset("asset/img/food/ddeok_bok_gi.jpg"),
-            name: '불타는 떡볶이',
-            tags: const ["떡볶이", "치즈", "매운맛"],
-            priceRange: 'cheap',
-            ratings: 4.89,
-            ratingsCount: 200,
-            deliveryTime: 20,
-            deliveryFee: 2000,
-          );
+          final pItem = data[index];
+          return RestaurantCard.fromModel(restaurantModel: pItem);
         },
         separatorBuilder: (_, index) => const SizedBox(height: 8),
         itemCount: data.length);

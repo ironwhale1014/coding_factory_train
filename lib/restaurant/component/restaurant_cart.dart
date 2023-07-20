@@ -1,7 +1,17 @@
 import 'package:coding_factory_train/common/const/colors.dart';
+import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantCard extends StatelessWidget {
+  final Widget image;
+  final String name;
+  final List<String> tags;
+  final String priceRange;
+  final double ratings;
+  final int ratingsCount;
+  final int deliveryTime;
+  final int deliveryFee;
+
   const RestaurantCard(
       {super.key,
       required this.name,
@@ -13,14 +23,18 @@ class RestaurantCard extends StatelessWidget {
       required this.deliveryTime,
       required this.deliveryFee});
 
-  final Widget image;
-  final String name;
-  final List<String> tags;
-  final String priceRange;
-  final double ratings;
-  final int ratingsCount;
-  final int deliveryTime;
-  final int deliveryFee;
+  factory RestaurantCard.fromModel({required RestaurantModel restaurantModel}) {
+    return RestaurantCard(
+      image: Image.network(restaurantModel.thumbUrl),
+      name: restaurantModel.name,
+      tags: restaurantModel.tags,
+      priceRange: restaurantModel.priceRange.toString(),
+      ratings: restaurantModel.ratings,
+      ratingsCount: restaurantModel.ratingsCount,
+      deliveryTime: restaurantModel.deliveryTime,
+      deliveryFee: restaurantModel.deliveryFee,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +64,7 @@ class RestaurantCard extends StatelessWidget {
               _renderDot(),
               _iconText(
                   icon: Icons.monetization_on,
-                  label: (deliveryTime == 0) ? "무료" : deliveryFee.toString()),
+                  label: (deliveryFee == 0) ? "무료" : deliveryFee.toString()),
             ],
           )
         ],
