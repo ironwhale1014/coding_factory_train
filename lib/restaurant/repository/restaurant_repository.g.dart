@@ -64,7 +64,7 @@ class _RestaurantRepository implements RestaurantRepository {
 // **************************************************************************
 
 String _$restaurantRepositoryHash() =>
-    r'998b8a08454b1632f11d01a9d42162ad900216ec';
+    r'ec8d0d5a2beb11f62b9dba5fe391b3a3d9075664';
 
 /// See also [restaurantRepository].
 @ProviderFor(restaurantRepository)

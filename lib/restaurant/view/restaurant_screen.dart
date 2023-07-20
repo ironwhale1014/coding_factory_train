@@ -11,7 +11,6 @@ class RestaurantScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<RestaurantModel> data = ref.watch(restaurantProvider);
-    logger.d("gg");
 
     if (data.isEmpty) {
       return const Center(child: CircularProgressIndicator());
@@ -19,7 +18,6 @@ class RestaurantScreen extends ConsumerWidget {
 
     return ListView.separated(
         itemBuilder: (context, index) {
-          logger.d("gg11");
           return RestaurantCard(
             image: Image.asset("asset/img/food/ddeok_bok_gi.jpg"),
             name: '불타는 떡볶이',

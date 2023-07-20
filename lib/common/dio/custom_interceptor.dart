@@ -7,12 +7,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'custom_interceptor.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Dio myDio(MyDioRef ref) {
   final Dio dio = Dio();
   final storage = ref.watch(secureStorageProvider);
 
-  dio.interceptors.addAll([CustomInterceptor(storage: storage)]);
+  dio.interceptors.add(CustomInterceptor(storage: storage));
 
   return dio;
 }
@@ -28,7 +28,7 @@ class CustomInterceptor extends Interceptor {
     if (options.headers["accessToken"] == "true") {
       final accessToken = await storage.read(key: ACCESS_TOKEN);
       options.headers.remove(accessToken);
-      options.headers.addAll({"accessToken": "Bearer $accessToken"});
+      options.headers.addAll({"authorization": "Bearer $accessToken"});
     }
     super.onRequest(options, handler);
   }

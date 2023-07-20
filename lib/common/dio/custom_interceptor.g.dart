@@ -6,11 +6,11 @@ part of 'custom_interceptor.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$myDioHash() => r'b142a5ddc4e5f9bc16f9f79bdbb7aa00fb1eccab';
+String _$myDioHash() => r'ee203ac176b5b663ee5f3c22f6e27cd5f6e2ef3f';
 
 /// See also [myDio].
 @ProviderFor(myDio)
-final myDioProvider = AutoDisposeProvider<Dio>.internal(
+final myDioProvider = Provider<Dio>.internal(
   myDio,
   name: r'myDioProvider',
   debugGetCreateSourceHash:
@@ -19,5 +19,5 @@ final myDioProvider = AutoDisposeProvider<Dio>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef MyDioRef = AutoDisposeProviderRef<Dio>;
+typedef MyDioRef = ProviderRef<Dio>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
