@@ -19,7 +19,11 @@ class RestaurantScreen extends ConsumerWidget {
     return ListView.separated(
         itemBuilder: (context, index) {
           final pItem = data[index];
-          return RestaurantCard.fromModel(restaurantModel: pItem);
+          return InkWell(
+            onTap: (){
+              logger.d("push tap");
+            },
+              child: RestaurantCard.fromModel(restaurantModel: pItem));
         },
         separatorBuilder: (_, index) => const SizedBox(height: 8),
         itemCount: data.length);
