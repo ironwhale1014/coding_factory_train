@@ -39,16 +39,16 @@ class Meta {
   Meta copyWith({int? count, bool? hasMore}) {
     return Meta(count: count ?? this.count, hasMore: hasMore ?? this.hasMore);
   }
-
   factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
 }
 
-// 새로고침 할때
+// 데이터 있는데 새로고침 할때
 class CursorPaginationRefetching<T> extends CursorPagination<T> {
   CursorPaginationRefetching({required super.meta, required super.data});
 }
 
-// 맨 아래 갔을 때 새로운 값 가지고 올때
+// 데이터 있는데 맨 아래 갔을 때 새로운 값 가지고 올때
 class CursorPaginationfetchingMore<T> extends CursorPagination<T> {
   CursorPaginationfetchingMore({required super.meta, required super.data});
+
 }
