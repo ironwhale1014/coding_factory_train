@@ -1,4 +1,5 @@
 import 'package:coding_factory_train/common/const/util.dart';
+import 'package:coding_factory_train/common/model/cursor_pagination_model.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_cart.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:coding_factory_train/restaurant/provider/restaurant_provider.dart';
@@ -10,22 +11,33 @@ class RestaurantScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<RestaurantModel> data = ref.watch(restaurantProvider);
+    final CursorPaginationBase state = ref.watch(restaurantProvider);
 
-    if (data.isEmpty) {
+    if (state is CursorPaginationLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
+    if (state is CursorPaginationError) {
+      return Center(child: Text(state.message));
+    }
+
+    final ps = state as CursorPagination;
+
+    logger.d(ps.data);
+    logger.d(ps.meta.hasMore);
+    logger.d(ps.meta.count);
+
     return ListView.separated(
         itemBuilder: (context, index) {
-          final pItem = data[index];
+          final pItem = ps.data[index];
+
           return InkWell(
-            onTap: (){
-              logger.d("push tap");
-            },
+              onTap: () {
+                logger.d("push tap");
+              },
               child: RestaurantCard.fromModel(restaurantModel: pItem));
         },
         separatorBuilder: (_, index) => const SizedBox(height: 8),
-        itemCount: data.length);
+        itemCount: ps.data.length);
   }
 }
