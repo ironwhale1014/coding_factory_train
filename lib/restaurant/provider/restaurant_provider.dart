@@ -1,3 +1,4 @@
+import 'package:coding_factory_train/common/const/util.dart';
 import 'package:coding_factory_train/common/model/cursor_pagination_model.dart';
 import 'package:coding_factory_train/common/model/pagination_param.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
@@ -40,12 +41,16 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
 
     PaginationParam paginationParam = PaginationParam(count: fetchCount);
 
+    logger.d("1");
+
     if (fetchMore) {
+      logger.d("2");
       final pState = state as CursorPagination<RestaurantModel>;
 
       state = CursorPaginationFetchMore(meta: pState.meta, data: pState.data);
 
       paginationParam.copyWith(after: pState.data.last.id);
+      logger.d("3");
     }
 
     final resp =
@@ -59,6 +64,8 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
           ...pState.data,
           ...resp.data
           ]);
+    }else{
+      state = resp;
     }
   }
 }
