@@ -43,9 +43,13 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
 
     final ps = state as CursorPagination;
 
-
     return ListView.separated(
+        controller: controller,
         itemBuilder: (context, index) {
+          if(index == ps.data.length){
+            return Center(child: state is CursorPaginationFetchMore? const CircularProgressIndicator():const Text("Last Data"));
+          }
+
           final pItem = ps.data[index];
 
           return InkWell(
@@ -55,6 +59,6 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
               child: RestaurantCard.fromModel(restaurantModel: pItem));
         },
         separatorBuilder: (_, index) => const SizedBox(height: 8),
-        itemCount: ps.data.length);
+        itemCount: ps.data.length+1);
   }
 }

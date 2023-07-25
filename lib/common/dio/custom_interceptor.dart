@@ -71,7 +71,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     logger.d(
-        "[RESPONSE] uri:${response.requestOptions.uri}, method:${response.requestOptions.method}");
+        "[RESPONSE] uri:${response.requestOptions.uri}, method:${response.requestOptions.method}, ${response.data.toString()}");
     super.onResponse(response, handler);
   }
 }
