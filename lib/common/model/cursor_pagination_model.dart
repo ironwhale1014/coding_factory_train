@@ -47,6 +47,10 @@ class CursorPagination<T> extends CursorPaginationBase {
   factory CursorPagination.fromJson(
           Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
       _$CursorPaginationFromJson(json, fromJsonT);
+
+  CursorPagination copyWith({Meta? meta, List<T>? data}) {
+    return CursorPagination(meta: meta ?? this.meta, data: data ?? this.data);
+  }
 }
 
 class CursorPaginationRefetch<T> extends CursorPagination<T> {

@@ -6,11 +6,31 @@ import 'package:coding_factory_train/restaurant/provider/restaurant_provider.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RestaurantScreen extends ConsumerWidget {
+class RestaurantScreen extends ConsumerStatefulWidget {
   const RestaurantScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RestaurantScreen> createState() => _RestaurantScreenState();
+}
+
+class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
+  ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.addListener(scrollListener);
+  }
+
+  void scrollListener() {
+    if (controller.offset > controller.position.maxScrollExtent - 300) {
+      ref.read(restaurantProvider.notifier).paginate(fetchMore: true);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final CursorPaginationBase state = ref.watch(restaurantProvider);
 
     if (state is CursorPaginationLoading) {
@@ -23,9 +43,6 @@ class RestaurantScreen extends ConsumerWidget {
 
     final ps = state as CursorPagination;
 
-    logger.d(ps.data);
-    logger.d(ps.meta.hasMore);
-    logger.d(ps.meta.count);
 
     return ListView.separated(
         itemBuilder: (context, index) {

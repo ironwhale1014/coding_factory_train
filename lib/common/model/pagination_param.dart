@@ -7,9 +7,13 @@ class PaginationParam {
   final String? after;
   final int? count;
 
-
   // const 필수
   const PaginationParam({this.after, this.count});
+
+  PaginationParam copyWith({String? after, int? count}) {
+    return PaginationParam(
+        after: after ?? this.after, count: count ?? this.count);
+  }
 
   factory PaginationParam.fromJson(Map<String, dynamic> json) =>
       _$PaginationParamFromJson(json);
