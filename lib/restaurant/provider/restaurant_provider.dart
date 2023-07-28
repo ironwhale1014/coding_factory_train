@@ -1,7 +1,5 @@
-import 'package:coding_factory_train/common/const/util.dart';
 import 'package:coding_factory_train/common/model/cursor_pagination_model.dart';
 import 'package:coding_factory_train/common/model/pagination_param.dart';
-import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:coding_factory_train/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,7 +44,6 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
       final pState = state as CursorPagination;
       state = CursorPaginationFetchMore(meta: pState.meta, data: pState.data);
       paginationParam = paginationParam.copyWith(after: pState.data.last.id);
-      logger.d(paginationParam.toJson().toString());
     }
 
     final resp = await repository.paginate(paginationParam: paginationParam);

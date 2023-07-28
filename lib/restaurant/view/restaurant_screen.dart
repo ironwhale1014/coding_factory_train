@@ -1,8 +1,8 @@
-import 'package:coding_factory_train/common/const/util.dart';
 import 'package:coding_factory_train/common/model/cursor_pagination_model.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_cart.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:coding_factory_train/restaurant/provider/restaurant_provider.dart';
+import 'package:coding_factory_train/restaurant/view/restaurant_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,21 +44,29 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     final ps = state as CursorPagination;
 
     return ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         controller: controller,
         itemBuilder: (context, index) {
-          if(index == ps.data.length){
-            return Center(child: state is CursorPaginationFetchMore? const CircularProgressIndicator():const Text("Last Data"));
+          if (index == ps.data.length) {
+            return Center(
+                child: state is CursorPaginationFetchMore
+                    ? const CircularProgressIndicator()
+                    : const Text("Last Data"));
           }
 
-          final pItem = ps.data[index];
+          final RestaurantModel pItem = ps.data[index];
 
           return InkWell(
               onTap: () {
-                logger.d("push tap");
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => RestaurantDetailScreen(
+                          id: pItem.id,
+                          name: pItem.name,
+                        )));
               },
               child: RestaurantCard.fromModel(restaurantModel: pItem));
         },
         separatorBuilder: (_, index) => const SizedBox(height: 8),
-        itemCount: ps.data.length+1);
+        itemCount: ps.data.length + 1);
   }
 }
