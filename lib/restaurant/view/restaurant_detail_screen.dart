@@ -1,5 +1,7 @@
 import 'package:coding_factory_train/common/const/util.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
+import 'package:coding_factory_train/products/product_card.dart';
+import 'package:coding_factory_train/products/product_model.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_cart.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_detail_model.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
@@ -31,7 +33,11 @@ class RestaurantDetailScreen extends ConsumerWidget {
             }
             final item = snapshot.data!;
 
-            return CustomScrollView(slivers: [renderTop(model: item)]);
+            return CustomScrollView(slivers: [
+              renderTop(model: item),
+              renderMenu(),
+              renderProducts(products: item.products)
+            ]);
           },
         ));
   }
@@ -39,6 +45,35 @@ class RestaurantDetailScreen extends ConsumerWidget {
   SliverToBoxAdapter renderTop({required RestaurantModel model}) {
     return SliverToBoxAdapter(
       child: RestaurantCard.fromModel(restaurantModel: model, isDetail: true),
+    );
+  }
+
+  SliverPadding renderMenu() {
+    return const SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      sliver: SliverToBoxAdapter(
+        child: Text(
+          "Menu",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+      ),
+    );
+  }
+
+  SliverPadding renderProducts({required List<ProductModel> products}) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: ProductCard.fromModel(products[index]),
+            );
+          },
+          childCount: products.length,
+        ),
+      ),
     );
   }
 }
