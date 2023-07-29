@@ -1,9 +1,5 @@
-import 'package:coding_factory_train/common/const/data.dart';
-import 'package:coding_factory_train/common/dio/dio.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
-import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:coding_factory_train/restaurant/provider/restaurant_provider.dart';
-import 'package:coding_factory_train/restaurant/repository/restaurant_repository.dart';
 import 'package:coding_factory_train/restaurant/view/restaurant_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,7 +56,8 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
           itemBuilder: (_, index) {
             if (index == cp.data.length) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Center(
                     child: data is CursorPaginationfetchingMore
                         ? const CircularProgressIndicator()
