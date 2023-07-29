@@ -5,42 +5,53 @@ import 'package:coding_factory_train/product/component/product_card.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_detail_model.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
+import 'package:coding_factory_train/restaurant/provider/restaurant_provider.dart';
 import 'package:coding_factory_train/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RestaurantDetail extends ConsumerWidget {
+class RestaurantDetail extends ConsumerStatefulWidget {
   const RestaurantDetail({super.key, required this.id});
 
   final String id;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return DefaultLayout(
+  ConsumerState<RestaurantDetail> createState() => _RestaurantDetailState();
+}
+
+class _RestaurantDetailState extends ConsumerState<RestaurantDetail> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ref.read(restaurantProvider.notifier).getDetail(id: widget.id);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final item = ref.watch(gRestaurantDetailProvider(id: widget.id));
+
+    if (item == null) {
+      return DefaultLayout(
         title: "불타는 떡볶이",
-        child: FutureBuilder<RestaurantDetailModel>(
-          future: ref
-              .watch(restaurantRepositoryProvider)
-              .getRestaurantDetail(id: id),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              print(snapshot.error.toString());
-            }
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
-            final item = snapshot.data!;
-
-            return CustomScrollView(
-              slivers: [
-                renderTop(model: item),
-                renderMenu(),
-                renderProducts(products: item.products)
-              ],
-            );
-          },
-        ));
+    return DefaultLayout(
+      title: "불타는 떡볶이",
+      child: CustomScrollView(
+        slivers: [
+          renderTop(model: item),
+          if(item is RestaurantDetailModel)
+          renderMenu(),
+          if(item is RestaurantDetailModel)
+          renderProducts(products: item.products)
+        ],
+      ),
+    );
   }
 
   SliverPadding renderMenu() {
