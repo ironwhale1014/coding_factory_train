@@ -20,8 +20,9 @@ class ProductCard extends StatelessWidget {
   final String detail;
   final int price;
 
-  ProductCard(
-      {required this.name,
+  const ProductCard(
+      {super.key,
+      required this.name,
       required this.image,
       required this.detail,
       required this.price});
@@ -42,7 +43,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return IntrinsicHeight(
       child: Row(
         children: [

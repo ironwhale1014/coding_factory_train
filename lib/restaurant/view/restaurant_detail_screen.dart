@@ -60,20 +60,34 @@ class RestaurantDetailScreen extends ConsumerWidget {
     );
   }
 
-  SliverPadding renderProducts({required List<ProductModel> products}) {
+  renderProducts({required List<ProductModel> products}) {
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       sliver: SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: ProductCard.fromModel(products[index]),
-            );
-          },
-          childCount: products.length,
-        ),
-      ),
+          delegate: SliverChildBuilderDelegate(childCount: products.length,
+              (context, index) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: ProductCard.fromModel(products[index]),
+        );
+      })),
     );
   }
+
+// SliverPadding renderProducts({required List<ProductModel> products}) {
+//   return SliverPadding(
+//     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//     sliver: SliverList(
+//       delegate: SliverChildBuilderDelegate(
+//         (context, index) {
+//           return Padding(
+//             padding: const EdgeInsets.only(top: 8.0),
+//             child: ProductCard.fromModel(products[index]),
+//           );
+//         },
+//         childCount: products.length,
+//       ),
+//     ),
+//   );
+// }
 }
