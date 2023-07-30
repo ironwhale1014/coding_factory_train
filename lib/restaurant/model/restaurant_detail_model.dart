@@ -53,6 +53,9 @@ class RestaurantDetailModel extends RestaurantModel {
     required this.products,
   });
 
+
+
+
   factory RestaurantDetailModel.fromJson(Map<String, dynamic> json)
-  =>_$RestaurantDetailModelFromJson(json);
+  => _$RestaurantDetailModelFromJson(json);
 }

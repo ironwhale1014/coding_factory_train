@@ -37,14 +37,21 @@ class CustomInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
 
-    final bool isRefreshPath = err.requestOptions.uri == "/auth/token";
-    final bool isStatus401 = err.response?.statusCode == "401";
+    logger.d("refreshToken $refreshToken");
+
+
+    final bool isRefreshPath = err.requestOptions.path == "/auth/token";
+    final bool isStatus401 = err.response?.statusCode == 401;
 
     if (refreshToken == null) {
+
       return handler.reject(err);
     }
 
+    logger.d("isStatus401 $isStatus401, isRefreshPath: ${!isRefreshPath}");
+
     if (isStatus401 && !isRefreshPath) {
+
       final Dio dio = Dio();
       try {
         final resp = await dio.post("$serverUrl/auth/token",

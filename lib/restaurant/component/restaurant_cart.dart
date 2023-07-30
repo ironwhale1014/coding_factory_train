@@ -14,6 +14,7 @@ class RestaurantCard extends StatelessWidget {
   final int deliveryFee;
   final bool isDetail;
   final String? detail;
+  final String? heroKey;
 
   const RestaurantCard(
       {super.key,
@@ -26,7 +27,8 @@ class RestaurantCard extends StatelessWidget {
       required this.deliveryTime,
       required this.deliveryFee,
       this.isDetail = false,
-      this.detail});
+      this.detail,
+      this.heroKey});
 
   factory RestaurantCard.fromModel(
       {required RestaurantModel restaurantModel, bool isDetail = false}) {
@@ -43,6 +45,7 @@ class RestaurantCard extends StatelessWidget {
       detail: restaurantModel is RestaurantDetailModel
           ? restaurantModel.detail
           : null,
+      heroKey: restaurantModel.id,
     );
   }
 
@@ -51,9 +54,17 @@ class RestaurantCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (isDetail) image,
-        if (!isDetail)
-          ClipRRect(borderRadius: BorderRadius.circular(16), child: image),
+        if (heroKey != null)
+          Hero(
+            tag: ObjectKey(heroKey),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(isDetail ? 0 : 16),
+                child: image),
+          ),
+        if (heroKey ==null)
+          ClipRRect(
+              borderRadius: BorderRadius.circular(isDetail ? 0 : 16),
+              child: image),
         const SizedBox(height: 16),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: isDetail ? 16 : 0),
@@ -85,7 +96,7 @@ class RestaurantCard extends StatelessWidget {
                           (deliveryFee == 0) ? "무료" : deliveryFee.toString()),
                 ],
               ),
-              if(detail !=null && isDetail)
+              if (detail != null && isDetail)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Text(detail!),

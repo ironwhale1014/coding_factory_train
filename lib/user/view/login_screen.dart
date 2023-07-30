@@ -75,7 +75,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           key: ACCESS_TOKEN, value: accessToken);
                       await storage.write(
                           key: REFRESH_TOKEN, value: refreshToken);
-                      logger.d(await storage.read(key: ACCESS_TOKEN));
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(builder: (_) => RootTap()),
                           (route) => false);
