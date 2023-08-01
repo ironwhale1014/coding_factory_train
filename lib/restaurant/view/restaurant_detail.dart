@@ -2,6 +2,7 @@ import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/dio/dio.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/product/component/product_card.dart';
+import 'package:coding_factory_train/rating/component/rating_cart.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_detail_model.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
@@ -49,7 +50,18 @@ class _RestaurantDetailState extends ConsumerState<RestaurantDetail> {
           if (item is! RestaurantDetailModel) renderLoading(),
           if (item is RestaurantDetailModel) renderMenu(),
           if (item is RestaurantDetailModel)
-            renderProducts(products: item.products)
+            renderProducts(products: item.products),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            sliver: SliverToBoxAdapter(
+                child: RatingCard(
+                    avatarImage:
+                        const AssetImage('asset/img/logo/codefactory_logo.png'),
+                    images: [],
+                    rating: 4,
+                    email: "email",
+                    content: "content")),
+          )
         ],
       ),
     );
@@ -57,7 +69,7 @@ class _RestaurantDetailState extends ConsumerState<RestaurantDetail> {
 
   SliverPadding renderLoading() {
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       sliver: SliverList(
         delegate: SliverChildListDelegate(List.generate(
             3,
