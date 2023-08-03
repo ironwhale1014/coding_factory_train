@@ -1,4 +1,5 @@
 import 'package:coding_factory_train/common/const/data.dart';
+import 'package:coding_factory_train/common/model/model_with_id.dart';
 import 'package:coding_factory_train/common/util/data_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,7 +8,8 @@ part 'restaurant_model.g.dart';
 enum RestaurantPriceRange { medium, cheap, expensive }
 
 @JsonSerializable()
-class RestaurantModel {
+class RestaurantModel implements IModelWithId {
+  @override
   final String id;
   final String name;
   @JsonKey(fromJson: DataUtils.pathToURL)
@@ -36,8 +38,4 @@ class RestaurantModel {
   }
 
   Map<String, dynamic> toJson() => _$RestaurantModelToJson(this);
-
-// static pathToURL(String value) {
-//   return '$ip$value';
-// }
 }
