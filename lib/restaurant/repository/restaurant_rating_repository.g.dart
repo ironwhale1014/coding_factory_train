@@ -67,7 +67,7 @@ class _RestaurantRatingRepository implements RestaurantRatingRepository {
 // **************************************************************************
 
 String _$gRestaurantRatingRepositoryHash() =>
-    r'459a917c76785bae84a320566a532f5e6cf932c9';
+    r'aec5dc0735d4df33e9fd67d91a5f159bc235a9ff';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -91,7 +91,7 @@ class _SystemHash {
 }
 
 typedef GRestaurantRatingRepositoryRef
-    = AutoDisposeProviderRef<RestaurantRatingRepository>;
+    = ProviderRef<RestaurantRatingRepository>;
 
 /// See also [gRestaurantRatingRepository].
 @ProviderFor(gRestaurantRatingRepository)
@@ -138,7 +138,7 @@ class GRestaurantRatingRepositoryFamily
 
 /// See also [gRestaurantRatingRepository].
 class GRestaurantRatingRepositoryProvider
-    extends AutoDisposeProvider<RestaurantRatingRepository> {
+    extends Provider<RestaurantRatingRepository> {
   /// See also [gRestaurantRatingRepository].
   GRestaurantRatingRepositoryProvider({
     required this.id,

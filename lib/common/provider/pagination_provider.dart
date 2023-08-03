@@ -1,3 +1,4 @@
+import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/model/cursor_pagination_model.dart';
 import 'package:coding_factory_train/common/model/model_with_id.dart';
 import 'package:coding_factory_train/common/model/pagination_prams.dart';
@@ -8,7 +9,9 @@ class PaginationProvider<T extends IModelWithId,
         U extends IBasePaginationRepository<T>>
     extends StateNotifier<CursorPaginationBase> {
   PaginationProvider({required this.repository})
-      : super(CursorPaginationLoading());
+      : super(CursorPaginationLoading()) {
+    paginate();
+  }
 
   final U repository;
 
@@ -60,8 +63,8 @@ class PaginationProvider<T extends IModelWithId,
       if (fetchMore) {
         final pState = state as CursorPagination<T>;
 
-        state =
-            CursorPaginationfetchingMore<T>(meta: pState.meta, data: pState.data);
+        state = CursorPaginationfetchingMore<T>(
+            meta: pState.meta, data: pState.data);
 
         paginationParams =
             paginationParams.copyWith(after: pState.data.last.id);
@@ -72,8 +75,8 @@ class PaginationProvider<T extends IModelWithId,
         if (state is CursorPagination && !forceRefech) {
           final pState = state as CursorPagination<T>;
 
-          state =
-              CursorPaginationRefetching<T>(meta: pState.meta, data: pState.data);
+          state = CursorPaginationRefetching<T>(
+              meta: pState.meta, data: pState.data);
         } else {
           state = CursorPaginationLoading();
         }
@@ -95,7 +98,9 @@ class PaginationProvider<T extends IModelWithId,
       } else {
         state = resp;
       }
-    } catch (e) {
+    } catch (e,stack) {
+      logger.e(e);
+      logger.e(stack);
       state = CursorPaginationError(message: "no get Data");
     }
   }

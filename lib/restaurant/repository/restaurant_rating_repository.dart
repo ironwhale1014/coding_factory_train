@@ -10,7 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'restaurant_rating_repository.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 RestaurantRatingRepository gRestaurantRatingRepository(
     GRestaurantRatingRepositoryRef ref,
     {required String id}) {

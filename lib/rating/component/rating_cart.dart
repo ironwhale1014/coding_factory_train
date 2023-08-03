@@ -1,6 +1,6 @@
 import 'package:coding_factory_train/common/const/colors.dart';
+import 'package:coding_factory_train/rating/model/rating_model.dart';
 import 'package:flutter/material.dart';
-
 import 'package:collection/collection.dart';
 
 class RatingCard extends StatelessWidget {
@@ -18,6 +18,16 @@ class RatingCard extends StatelessWidget {
   final String email;
   final String content;
 
+  factory RatingCard.fromModel({required RatingModel ratingModel}) {
+    return RatingCard(
+      avatarImage: NetworkImage(ratingModel.user.imageUrl),
+      images: ratingModel.imgUrls.map((e) => Image.network(e)).toList(),
+      rating: ratingModel.rating,
+      email: ratingModel.user.username,
+      content: ratingModel.content,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,10 +39,11 @@ class RatingCard extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         _Body(content: content),
-        if(images.isNotEmpty)
-        SizedBox(
-            height: 100,
-            child: _Images(images: images))
+        if (images.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: SizedBox(height: 100, child: _Images(images: images)),
+          )
       ],
     );
   }
@@ -57,7 +68,7 @@ class _Header extends StatelessWidget {
           radius: 12,
           backgroundImage: avatarImage,
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Expanded(
           child: Text(
             email,
@@ -88,7 +99,7 @@ class _Body extends StatelessWidget {
       children: [
         Flexible(
           child: Text(content,
-              style: TextStyle(color: BODY_TEXT_COLOR, fontSize: 14)),
+              style: const TextStyle(color: BODY_TEXT_COLOR, fontSize: 14)),
         ),
       ],
     );
