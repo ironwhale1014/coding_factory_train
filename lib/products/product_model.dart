@@ -1,4 +1,5 @@
 import 'package:coding_factory_train/common/const/util.dart';
+import 'package:coding_factory_train/common/model/model_with_id.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'product_model.g.dart';
@@ -16,7 +17,8 @@ part 'product_model.g.dart';
  */
 
 @JsonSerializable()
-class ProductModel {
+class ProductModel implements IModelWithId {
+  @override
   final String id;
   final String name;
   @JsonKey(fromJson: DataUtil.stringToUrl)
