@@ -1,11 +1,15 @@
 import 'package:coding_factory_train/common/const/util.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
+import 'package:coding_factory_train/common/model/cursor_pagination_model.dart';
 import 'package:coding_factory_train/products/product_card.dart';
 import 'package:coding_factory_train/products/product_model.dart';
+import 'package:coding_factory_train/rating/component/rating_card.dart';
+import 'package:coding_factory_train/rating/model/rating_model.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_cart.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_detail_model.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:coding_factory_train/restaurant/provider/restaurant_provider.dart';
+import 'package:coding_factory_train/restaurant/provider/restaurant_rating_provider.dart';
 import 'package:coding_factory_train/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,6 +39,7 @@ class _RestaurantDetailScreenState
   @override
   Widget build(BuildContext context) {
     final item = ref.watch(gRestaurantDetailProvider(id: widget.id));
+    final ratingItem = ref.watch(restaurantRatingProvider(widget.id));
 
     if (item == null) {
       return DefaultLayout(
@@ -50,9 +55,12 @@ class _RestaurantDetailScreenState
           if (item is! RestaurantDetailModel) renderLoading(),
           if (item is RestaurantDetailModel) renderMenu(),
           if (item is RestaurantDetailModel)
-            renderProducts(products: item.products)
+            renderProducts(products: item.products),
+          if (ratingItem is CursorPagination<RatingModel>)
+            renderRating(models: ratingItem.data)
         ]));
   }
+
   SliverPadding renderLoading() {
     return SliverPadding(
       padding: const EdgeInsets.all(16),
@@ -60,11 +68,28 @@ class _RestaurantDetailScreenState
         delegate: SliverChildListDelegate(List.generate(
             3,
             (index) => Padding(
-              padding: const EdgeInsets.only(bottom: 32.0),
-              child: SkeletonParagraph(
-                    style: SkeletonParagraphStyle(lines: 5,padding: EdgeInsets.zero),
+                  padding: const EdgeInsets.only(bottom: 32.0),
+                  child: SkeletonParagraph(
+                    style: const SkeletonParagraphStyle(
+                        lines: 5, padding: EdgeInsets.zero),
                   ),
-            ))),
+                ))),
+      ),
+    );
+  }
+
+  SliverPadding renderRating({required List<RatingModel> models}) {
+    return SliverPadding(
+
+      padding: const EdgeInsets.all(16),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final model = models[index];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: RatingCard.fromModel(model),
+          );
+        }, childCount: models.length),
       ),
     );
   }
