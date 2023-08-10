@@ -1,3 +1,4 @@
+import 'package:coding_factory_train/common/const/util.dart';
 import 'package:coding_factory_train/common/model/cursor_pagination_model.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_cart.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
@@ -24,9 +25,9 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   }
 
   void scrollListener() {
-    if (controller.offset > controller.position.maxScrollExtent - 300) {
-      ref.read(restaurantProvider.notifier).paginate(fetchMore: true);
-    }
+    PaginationUtils.paginate(
+        controller: controller,
+        provider: ref.read(restaurantProvider.notifier));
   }
 
   @override

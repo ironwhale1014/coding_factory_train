@@ -29,11 +29,20 @@ class RestaurantDetailScreen extends ConsumerStatefulWidget {
 
 class _RestaurantDetailScreenState
     extends ConsumerState<RestaurantDetailScreen> {
+  final ScrollController controller = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     ref.read(restaurantProvider.notifier).getDetail(id: widget.id);
+    controller.addListener(listener);
+  }
+
+  void listener() {
+    PaginationUtils.paginate(
+        controller: controller,
+        provider: ref.read(restaurantRatingProvider(widget.id).notifier));
   }
 
   @override
@@ -50,7 +59,7 @@ class _RestaurantDetailScreenState
 
     return DefaultLayout(
         title: widget.name,
-        child: CustomScrollView(slivers: [
+        child: CustomScrollView(controller: controller, slivers: [
           renderTop(model: item),
           if (item is! RestaurantDetailModel) renderLoading(),
           if (item is RestaurantDetailModel) renderMenu(),
@@ -80,7 +89,6 @@ class _RestaurantDetailScreenState
 
   SliverPadding renderRating({required List<RatingModel> models}) {
     return SliverPadding(
-
       padding: const EdgeInsets.all(16),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate((context, index) {
