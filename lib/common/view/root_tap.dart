@@ -1,5 +1,6 @@
 import 'package:coding_factory_train/common/const/colors.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
+import 'package:coding_factory_train/product/view/product_screen.dart';
 import 'package:coding_factory_train/restaurant/view/restourant_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,7 @@ class _RootTapState extends State<RootTap> with SingleTickerProviderStateMixin {
           controller.animateTo(index);
         },
         currentIndex: index,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "홈"),
           BottomNavigationBarItem(
               icon: Icon(Icons.fastfood_outlined), label: "음식"),
@@ -63,8 +64,8 @@ class _RootTapState extends State<RootTap> with SingleTickerProviderStateMixin {
         physics: NeverScrollableScrollPhysics(),
         controller: controller,
         children: [
-          RestaurantScreen(),
-          Center(child: Container(child: Text("음식"))),
+          const RestaurantScreen(),
+          const ProductScreen(),
           Center(child: Container(child: Text("주문"))),
           Center(child: Container(child: Text("프로필"))),
         ],
