@@ -1,7 +1,7 @@
-import 'package:coding_factory_train/common/const/colors.dart';
 import 'package:coding_factory_train/common/const/data.dart';
+import 'package:coding_factory_train/common/dio/dio.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
-import 'package:coding_factory_train/common/secure_storage/secure_storage.dart';
+import 'package:coding_factory_train/common/secure/secure_storage.dart';
 import 'package:coding_factory_train/common/view/root_tap.dart';
 import 'package:coding_factory_train/user/view/login_screen.dart';
 import 'package:dio/dio.dart';
@@ -12,7 +12,7 @@ class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  ConsumerState<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
@@ -20,29 +20,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // deleteToken();
     checkToken();
   }
 
-  void deleteToken() async {
-    final storage = ref.read(secureStorageProvider);
-
-    await storage.deleteAll();
-  }
-
-  void checkToken() async {
+  Future<void> checkToken() async {
     final storage = ref.read(secureStorageProvider);
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
-    final accessToken = await storage.read(key: ACCESS_TOKEN);
-
-    final dio = Dio();
+    final dio = ref.read(dioProvider);
 
     try {
-      final resp = await dio.post("$ip/auth/token",
-          options: Options(headers: {'Authorization': 'Bearer $refreshToken'}));
+      final resp = await dio.post("$serverIp/auth/token",
+          options: Options(headers: {"authorization": "Bearer $refreshToken"}));
 
-      await storage.write(key: ACCESS_TOKEN, value: resp.data['accessToken']);
-
+      final accessToken = resp.data[ACCESS_TOKEN];
+      await storage.write(key: ACCESS_TOKEN, value: accessToken);
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => RootTap()), (route) => false);
     } catch (e) {
@@ -56,7 +47,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     Size size = MediaQuery.of(context).size;
     return DefaultLayout(
         backgroundColor: PRIMARY_COLOR,
-        child: SizedBox(
+        body: SizedBox(
           width: size.width,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +56,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 "asset/img/logo/logo.png",
                 width: size.width / 2,
               ),
-              const CircularProgressIndicator(color: Colors.white)
+              const SizedBox(height: 16),
+              const CircularProgressIndicator(
+                color: Colors.white,
+              )
             ],
           ),
         ));

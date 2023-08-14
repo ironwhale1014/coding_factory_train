@@ -1,6 +1,7 @@
-import 'package:coding_factory_train/common/component/custom_textformfield.dart';
+import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/view/splash_screen.dart';
 import 'package:coding_factory_train/user/view/login_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,14 +10,17 @@ void main() {
 }
 
 class _App extends StatelessWidget {
-  const _App({Key? key}) : super(key: key);
+  const _App({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(useMaterial3: true, fontFamily: 'NotoSans'),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: PRIMARY_COLOR),
+      ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
