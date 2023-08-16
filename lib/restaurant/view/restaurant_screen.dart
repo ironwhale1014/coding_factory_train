@@ -14,10 +14,19 @@ class RestaurantScreen extends ConsumerStatefulWidget {
 }
 
 class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
+  ScrollController controller = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    controller.addListener(listener);
+  }
+
+  void listener() {
+    if (controller.position.maxScrollExtent - 300 < controller.offset) {
+      ref.read(restaurantProvider.notifier).paginate(fetchMore: true);
+    }
   }
 
   @override
@@ -40,7 +49,11 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView.separated(
+        controller: controller,
         itemCount: cp.data.length + 1,
+        separatorBuilder: (BuildContext context, int index) {
+          return const SizedBox(height: 16);
+        },
         itemBuilder: (context, index) {
           if (cp.data.length == index) {
             return Center(
@@ -51,10 +64,11 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
           }
 
           final RestaurantModel restaurantModel = cp.data[index];
-          return RestaurantCard.fromModel(model: restaurantModel);
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(height: 16);
+          return InkWell(
+              onTap: () {
+                logger.d("click");
+              },
+              child: RestaurantCard.fromModel(model: restaurantModel));
         },
       ),
     );

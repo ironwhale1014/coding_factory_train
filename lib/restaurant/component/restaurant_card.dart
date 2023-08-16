@@ -41,7 +41,6 @@ class RestaurantCard extends StatelessWidget {
   final int deliveryFee;
 
   factory RestaurantCard.fromModel({required RestaurantModel model}) {
-    logger.d(model.thumbUrl);
     return RestaurantCard(
       name: model.name,
       image: Image.network(model.thumbUrl, fit: BoxFit.cover),
