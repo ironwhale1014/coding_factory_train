@@ -38,7 +38,7 @@ dependencies:
   dio: ^5.2.1+1
   flutter_secure_storage: ^8.0.0
   logger:
-  json_annotation: ^4.8.0
+  json_annotation: ^4.8.1
   retrofit: '>=4.0.0 <5.0.0'
   flutter_riverpod: ^2.3.6
   riverpod_annotation: ^2.1.1

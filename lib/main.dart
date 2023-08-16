@@ -1,6 +1,5 @@
 import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/view/splash_screen.dart';
-import 'package:coding_factory_train/user/view/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

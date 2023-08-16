@@ -1,4 +1,5 @@
 import 'package:coding_factory_train/common/layout/default_layout.dart';
+import 'package:coding_factory_train/restaurant/view/restaurant_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,7 +43,7 @@ class _RootTapState extends ConsumerState<RootTap>
         physics: const NeverScrollableScrollPhysics(),
         controller: controller,
         children: const [
-          Center(child: Text("home")),
+          RestaurantScreen(),
           Center(child: Text("food")),
           Center(child: Text("order")),
           Center(child: Text("profile")),

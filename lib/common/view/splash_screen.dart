@@ -1,5 +1,4 @@
 import 'package:coding_factory_train/common/const/data.dart';
-import 'package:coding_factory_train/common/dio/dio.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/common/secure/secure_storage.dart';
 import 'package:coding_factory_train/common/view/root_tap.dart';
@@ -26,7 +25,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   Future<void> checkToken() async {
     final storage = ref.read(secureStorageProvider);
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
-    final dio = ref.read(dioProvider);
+    final Dio dio = Dio();
 
     try {
       final resp = await dio.post("$serverIp/auth/token",
@@ -37,6 +36,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => RootTap()), (route) => false);
     } catch (e) {
+      logger.e(e.toString());
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
     }
