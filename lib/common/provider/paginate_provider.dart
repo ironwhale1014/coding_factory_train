@@ -57,17 +57,18 @@ abstract class PaginationProvider<T extends IModelWithId,
         }
       }
 
-
-
       final resp = await repository.paginate(paginationParam: paginationParam);
-      logger.d(resp);
+
 
       if (state is CursorPaginationFetchMore) {
+        logger.d(state);
         final pState = state as CursorPaginationFetchMore<T>;
-
         state = resp.copyWith(data: [...pState.data, ...resp.data]);
+        logger.d("state is CursorPaginationFetchMore");
       } else {
+        logger.d("state is else");
         state = resp;
+        logger.d(state);
       }
     } catch (e) {
       CursorPaginationError(message: "no get data");

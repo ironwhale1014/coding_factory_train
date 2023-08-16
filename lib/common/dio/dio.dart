@@ -19,7 +19,6 @@ class CustomInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    logger.d("[Request]  :${options.uri}");
     if (options.headers[ACCESS_TOKEN] == "true") {
       final accessToken = await storage.read(key: ACCESS_TOKEN);
       options.headers.remove("accessToken");

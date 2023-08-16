@@ -40,6 +40,7 @@ class RestaurantModel implements IModelWithId {
   final String thumbUrl;
   final List<String> tags;
   final PriceRange priceRange;
+  final int ratingsCount;
   final double ratings;
   final int deliveryTime;
   final int deliveryFee;
@@ -52,6 +53,7 @@ class RestaurantModel implements IModelWithId {
       required this.ratings,
       required this.deliveryTime,
       required this.deliveryFee,
+      required this.ratingsCount,
       required this.id});
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) =>

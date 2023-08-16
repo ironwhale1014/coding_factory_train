@@ -1,5 +1,7 @@
 import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/model/cursorpagination_model.dart';
+import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
+import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:coding_factory_train/restaurant/provider/restaurant_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,10 +31,32 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
       ));
     }
 
-    final cp = restaurantState as CursorPagination;
+    if (restaurantState is CursorPaginationError) {
+      logger.e(restaurantState.message);
+    }
 
-    return const Center(
-      child: Text("home1"),
+    final cp = restaurantState as CursorPagination<RestaurantModel>;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: ListView.separated(
+        itemCount: cp.data.length + 1,
+        itemBuilder: (context, index) {
+          if (cp.data.length == index) {
+            return Center(
+              child: (restaurantState is CursorPaginationFetchMore)
+                  ? const CircularProgressIndicator()
+                  : const Text("no more data"),
+            );
+          }
+
+          final RestaurantModel restaurantModel = cp.data[index];
+          return RestaurantCard.fromModel(model: restaurantModel);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const SizedBox(height: 16);
+        },
+      ),
     );
   }
 }
