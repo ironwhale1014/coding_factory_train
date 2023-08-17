@@ -34,7 +34,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       final accessToken = resp.data[ACCESS_TOKEN];
       await storage.write(key: ACCESS_TOKEN, value: accessToken);
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => RootTap()), (route) => false);
+          MaterialPageRoute(builder: (_) => const RootTap()), (route) => false);
     } catch (e) {
       logger.e(e.toString());
       Navigator.of(context).pushAndRemoveUntil(

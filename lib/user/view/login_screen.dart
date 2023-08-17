@@ -5,6 +5,7 @@ import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/dio/dio.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/common/secure/secure_storage.dart';
+import 'package:coding_factory_train/common/view/root_tap.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -70,6 +71,9 @@ class LoginScreen extends ConsumerWidget {
                         key: ACCESS_TOKEN, value: resp.data["accessToken"]);
                     await storage.write(
                         key: REFRESH_TOKEN, value: resp.data["refreshToken"]);
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (_) => const RootTap()),
+                        (route) => false);
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: PRIMARY_COLOR,

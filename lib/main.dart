@@ -1,6 +1,5 @@
 import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/view/splash_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,6 +16,7 @@ class _App extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: PRIMARY_COLOR),
+        fontFamily: "NotoSans"
       ),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
