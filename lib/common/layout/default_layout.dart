@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class DefaultLayout extends StatelessWidget {
   const DefaultLayout({
     super.key,
-    required this.body,
+    required this.child,
     this.title,
     this.actions,
     this.bottomNavigationBar,
     this.backgroundColor,
   });
 
-  final Widget body;
+  final Widget child;
   final String? title;
   final List<Widget>? actions;
   final Widget? bottomNavigationBar;
@@ -21,7 +21,7 @@ class DefaultLayout extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor ?? Colors.white,
       appBar: renderAppbar(),
-      body: body,
+      body: child,
       bottomNavigationBar: bottomNavigationBar,
     );
   }

@@ -47,7 +47,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     Size size = MediaQuery.of(context).size;
     return DefaultLayout(
         backgroundColor: PRIMARY_COLOR,
-        body: SizedBox(
+        child: SizedBox(
           width: size.width,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -1,3 +1,4 @@
+import 'package:coding_factory_train/restaurant/model/restaurant_detail_model.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,8 @@ import '../../common/const/data.dart';
 class RestaurantCard extends StatelessWidget {
   const RestaurantCard(
       {super.key,
+      this.isDetail = false,
+      this.detail,
       required this.name,
       required this.image,
       required this.tags,
@@ -39,8 +42,13 @@ class RestaurantCard extends StatelessWidget {
   final int ratingsCount;
   final int deliveryTime;
   final int deliveryFee;
+  final bool isDetail;
+  final String? detail;
 
-  factory RestaurantCard.fromModel({required RestaurantModel model}) {
+  factory RestaurantCard.fromModel({
+    required RestaurantModel model,
+    bool isDetail = false,
+  }) {
     return RestaurantCard(
       name: model.name,
       image: Image.network(model.thumbUrl, fit: BoxFit.cover),
@@ -49,6 +57,8 @@ class RestaurantCard extends StatelessWidget {
       ratingsCount: model.ratingsCount,
       deliveryTime: model.deliveryTime,
       deliveryFee: model.deliveryFee,
+      isDetail: isDetail,
+      detail: model is RestaurantDetailModel ? model.detail : null,
     );
   }
 
@@ -56,13 +66,15 @@ class RestaurantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: image,
-        ),
+        if (isDetail) image,
+        if (!isDetail)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: image,
+          ),
         const SizedBox(height: 16),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
+          padding: EdgeInsets.symmetric(horizontal: isDetail ? 16 : 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -90,7 +102,13 @@ class RestaurantCard extends StatelessWidget {
                       label: deliveryFee == 0 ? "무료" : deliveryFee.toString(),
                       icon: Icons.monetization_on),
                 ],
-              )
+              ),
+              const SizedBox(height: 8),
+              if (isDetail && detail != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Text(detail!),
+                )
             ],
           ),
         )

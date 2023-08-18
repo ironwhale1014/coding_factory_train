@@ -22,7 +22,7 @@ class LoginScreen extends ConsumerWidget {
     final storage = ref.watch(secureStorageProvider);
     Size size = MediaQuery.of(context).size;
     return DefaultLayout(
-      body: SafeArea(
+      child: SafeArea(
         top: true,
         bottom: false,
         child: SingleChildScrollView(

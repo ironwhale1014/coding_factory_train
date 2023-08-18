@@ -4,6 +4,7 @@ import 'package:coding_factory_train/common/model/cursorpagination_model.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:coding_factory_train/restaurant/provider/restaurant_provider.dart';
+import 'package:coding_factory_train/restaurant/view/restaurnat_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -68,6 +69,9 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
           return InkWell(
               onTap: () {
                 logger.d("click");
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => RestaurantDetailScreen(
+                        name: restaurantModel.name, id: restaurantModel.id)));
               },
               child: RestaurantCard.fromModel(model: restaurantModel));
         },

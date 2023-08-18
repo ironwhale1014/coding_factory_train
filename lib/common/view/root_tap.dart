@@ -39,7 +39,7 @@ class _RootTapState extends ConsumerState<RootTap>
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      body: TabBarView(
+      child: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         controller: controller,
         children: const [
