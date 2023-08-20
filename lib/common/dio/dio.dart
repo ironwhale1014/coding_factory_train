@@ -29,7 +29,6 @@ class CustomInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    logger.d("ll");
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
     if (refreshToken == null) {
       return handler.reject(err);

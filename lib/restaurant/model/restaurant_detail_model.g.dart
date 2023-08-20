@@ -6,7 +6,7 @@ part of 'restaurant_detail_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Product _$ProductFromJson(Map<String, dynamic> json) => Product(
+ProductModel _$ProductFromJson(Map<String, dynamic> json) => ProductModel(
       id: json['id'] as String,
       name: json['name'] as String,
       imgUrl: UrlUtils.stringToUrl(json['imgUrl'] as String),
@@ -14,7 +14,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       price: json['price'] as int,
     );
 
-Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
+Map<String, dynamic> _$ProductToJson(ProductModel instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'imgUrl': instance.imgUrl,
@@ -27,7 +27,7 @@ RestaurantDetailModel _$RestaurantDetailModelFromJson(
     RestaurantDetailModel(
       detail: json['detail'] as String,
       products: (json['products'] as List<dynamic>)
-          .map((e) => Product.fromJson(e as Map<String, dynamic>))
+          .map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String,
       thumbUrl: UrlUtils.stringToUrl(json['thumbUrl'] as String),
