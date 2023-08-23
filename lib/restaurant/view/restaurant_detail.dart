@@ -4,6 +4,7 @@ import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/common/model/cursor_pagination_model.dart';
 import 'package:coding_factory_train/common/util/pagination_utils.dart';
 import 'package:coding_factory_train/product/component/product_card.dart';
+import 'package:coding_factory_train/product/model/product_model.dart';
 import 'package:coding_factory_train/rating/component/rating_cart.dart';
 import 'package:coding_factory_train/rating/model/rating_model.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
@@ -127,7 +128,7 @@ class _RestaurantDetailState extends ConsumerState<RestaurantDetail> {
               (context, index) {
         return Padding(
           padding: const EdgeInsets.only(top: 16.0),
-          child: ProductCard.fromModel(model: products[index]),
+          child: ProductCard.fromRestaurantProductModel(model: products[index]),
         );
       })),
     );
