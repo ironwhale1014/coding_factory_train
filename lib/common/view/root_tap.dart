@@ -61,13 +61,13 @@ class _RootTapState extends State<RootTap> with SingleTickerProviderStateMixin {
         ],
       ),
       child: TabBarView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: controller,
-        children: [
-          const RestaurantScreen(),
-          const ProductScreen(),
-          Center(child: Container(child: Text("주문"))),
-          Center(child: Container(child: Text("프로필"))),
+        children: const [
+          RestaurantScreen(),
+          ProductScreen(),
+          Center(child: Text("주문")),
+          Center(child: Text("프로필")),
         ],
       ),
     );

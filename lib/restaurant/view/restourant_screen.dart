@@ -1,3 +1,4 @@
+import 'package:coding_factory_train/common/component/pagination_list_view.dart';
 import 'package:coding_factory_train/common/util/pagination_utils.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
 import 'package:coding_factory_train/restaurant/provider/restaurant_provider.dart';
@@ -7,77 +8,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../common/model/cursor_pagination_model.dart';
 
-class RestaurantScreen extends ConsumerStatefulWidget {
+class RestaurantScreen extends StatelessWidget {
   const RestaurantScreen({super.key});
 
   @override
-  ConsumerState<RestaurantScreen> createState() => _RestaurantScreenState();
-}
-
-class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
-  // 이것을 사용하지 위해 ConsumerStatefulWidget 변경
-  final ScrollController controller = ScrollController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    controller.addListener(scrollListener);
-  }
-
-  void scrollListener() {
-    PaginationUtils.paginate(
-        controller: controller,
-        provider: ref.read(restaurantProvider.notifier));
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final data = ref.watch(restaurantProvider);
-
-    //완전 처음 로딩할때
-    if (data is CursorPaginationLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    //에러 날때
-    if (data is CursorPaginationError) {
-      return Center(child: Text(data.message));
-    }
-
-    //CusorPagination
-    //CursorPaginationfetchingMore
-    // CursorPaginationRefetching
-    final cp = data as CursorPagination;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: ListView.separated(
-          controller: controller,
-          itemBuilder: (_, index) {
-            if (index == cp.data.length) {
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Center(
-                    child: data is CursorPaginationfetchingMore
-                        ? const CircularProgressIndicator()
-                        : const Text("마지막 데이터 입니다.")),
-              );
-            }
-
-            final pItem = cp.data[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => RestaurantDetail(id: pItem.id)));
-              },
-              child: RestaurantCard.fromModel(
-                pItem: pItem,
-              ),
-            );
-          },
-          separatorBuilder: (_, index) => const SizedBox(height: 10),
-          itemCount: cp.data.length + 1),
-    );
+    return PaginationListView(
+        provider: restaurantProvider,
+        itemBuilder: <RestaurantModel>(context, index, model) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => RestaurantDetail(id: model.id)));
+            },
+            child: RestaurantCard.fromModel(
+              pItem: model,
+            ),
+          );
+        });
   }
 }
