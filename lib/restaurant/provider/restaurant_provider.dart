@@ -1,10 +1,11 @@
+import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/model/cursor_pagination_model.dart';
-import 'package:coding_factory_train/common/model/pagination_prams.dart';
 import 'package:coding_factory_train/common/provider/pagination_provider.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:coding_factory_train/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:collection/collection.dart';
 
 part 'restaurant_provider.g.dart';
 
@@ -17,7 +18,7 @@ RestaurantModel? gRestaurantDetail(GRestaurantDetailRef ref,
     return null;
   }
 
-  return state.data.firstWhere((e) => e.id == id);
+  return state.data.firstWhereOrNull((e) => e.id == id);
 }
 
 final restaurantProvider =
@@ -46,9 +47,14 @@ class RestaurantStateNotifier
 
     final resp = await repository.getRestaurantDetail(id: id); //디테일 모델임
 
-    state = pState.copyWith(
-        data: pState.data
-            .map<RestaurantModel>((e) => (e.id == id) ? resp : e)
-            .toList());
+    if (pState.data.where((element) => element.id == id).isEmpty) {
+      state = pState.copyWith(data: [...pState.data, resp]);
+      logger.d("hou");
+    } else {
+      state = pState.copyWith(
+          data: pState.data
+              .map<RestaurantModel>((e) => (e.id == id) ? resp : e)
+              .toList());
+    }
   }
 }

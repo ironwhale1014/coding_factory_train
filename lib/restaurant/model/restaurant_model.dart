@@ -1,4 +1,3 @@
-import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/model/model_with_id.dart';
 import 'package:coding_factory_train/common/util/data_util.dart';
 import 'package:json_annotation/json_annotation.dart';

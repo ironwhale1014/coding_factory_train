@@ -1,10 +1,8 @@
 import 'package:coding_factory_train/common/model/model_with_id.dart';
 import 'package:coding_factory_train/common/util/data_util.dart';
-import 'package:coding_factory_train/product/model/product_model.dart';
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../common/const/data.dart';
 
 part 'restaurant_detail_model.g.dart';
 

@@ -1,10 +1,7 @@
-import 'package:coding_factory_train/common/const/data.dart';
-import 'package:coding_factory_train/common/dio/dio.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/common/model/cursor_pagination_model.dart';
 import 'package:coding_factory_train/common/util/pagination_utils.dart';
 import 'package:coding_factory_train/product/component/product_card.dart';
-import 'package:coding_factory_train/product/model/product_model.dart';
 import 'package:coding_factory_train/rating/component/rating_cart.dart';
 import 'package:coding_factory_train/rating/model/rating_model.dart';
 import 'package:coding_factory_train/restaurant/component/restaurant_card.dart';
@@ -12,7 +9,6 @@ import 'package:coding_factory_train/restaurant/model/restaurant_detail_model.da
 import 'package:coding_factory_train/restaurant/model/restaurant_model.dart';
 import 'package:coding_factory_train/restaurant/provider/restaurant_provider.dart';
 import 'package:coding_factory_train/restaurant/provider/restaurant_rating_provider.dart';
-import 'package:coding_factory_train/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletons/skeletons.dart';

@@ -33,7 +33,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void checkToken() async {
     final storage = ref.read(secureStorageProvider);
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
-    final accessToken = await storage.read(key: ACCESS_TOKEN);
+    // final accessToken = await storage.read(key: ACCESS_TOKEN);
 
     final dio = Dio();
 

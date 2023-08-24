@@ -18,6 +18,7 @@ class _RootTapState extends State<RootTap> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
     // TODO: implement initState
     controller = TabController(length: 4, vsync: this);
     controller.addListener(tabListener);
