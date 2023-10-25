@@ -11,6 +11,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
+  static String get routeName => "splash";
+
   @override
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }

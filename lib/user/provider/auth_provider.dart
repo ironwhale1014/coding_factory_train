@@ -1,10 +1,14 @@
+import 'package:coding_factory_train/common/view/root_tap.dart';
+import 'package:coding_factory_train/common/view/splash_screen.dart';
+import 'package:coding_factory_train/restaurant/view/restaurant_detail.dart';
 import 'package:coding_factory_train/user/model/user_model.dart';
 import 'package:coding_factory_train/user/provider/user_me_provider.dart';
+import 'package:coding_factory_train/user/view/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final authProvider = ChangeNotifierProvider((ref) {
+final authProvider = ChangeNotifierProvider<AuthProvider>((ref) {
   return AuthProvider(ref: ref);
 });
 
@@ -19,8 +23,44 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
+  List<GoRoute> get routes => [
+        GoRoute(
+            path: "/",
+            name: RootTap.routeName,
+            builder: (_, __) => const RootTap(),
+            routes: [
+              GoRoute(
+                  path: "restaurant/:rid",
+                  builder: (_, state) =>
+                      RestaurantDetail(id: state.pathParameters["rid"]!))
+            ]),
+        GoRoute(
+            path: "/splash",
+            name: SplashScreen.routeName,
+            builder: (_, __) => const SplashScreen()),
+        GoRoute(
+            path: "/login",
+            name: LoginScreen.routeName,
+            builder: (_, __) => const LoginScreen()),
+      ];
 
-  String? redirectLogic(GoRouterState state){
+  // 앱 시작 시 토큰 존재 여부 확인 후 로그인으로 갈지 홈 스크린으로 갈지 확인 필요
+  String? redirectLogic(GoRouterState state) {
+    final UserModelBase? user = ref.read(userMeProvider);
+    final bool loggingIn = state.matchedLocation == "/login";
 
+    if (user == null) {
+      return loggingIn ? null : "/login";
+    }
+
+    if (user is UserModel) {
+      return loggingIn || state.matchedLocation == "/splash" ? "/" : null;
+    }
+
+    if (user is UserModelError) {
+      return !loggingIn ? "/login" : null;
+    }
+
+    return null;
   }
 }

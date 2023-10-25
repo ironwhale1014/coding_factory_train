@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class RootTap extends StatefulWidget {
   const RootTap({super.key});
+  static String get routeName => "rootTap";
 
   @override
   State<RootTap> createState() => _RootTapState();

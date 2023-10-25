@@ -13,6 +13,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
+  static String get routeName => "login";
+
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
