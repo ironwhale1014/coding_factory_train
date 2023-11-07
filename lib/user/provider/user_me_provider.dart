@@ -19,7 +19,6 @@ final userMeProvider =
 class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   final UserMeRepository repository;
   final FlutterSecureStorage storage;
-
   final AuthRepository authRepository;
 
   UserMeStateNotifier(
@@ -33,7 +32,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   Future<void> getMe() async {
     final accessToken = await storage.read(key: ACCESS_TOKEN);
     final refreshToken = await storage.read(key: REFRESH_TOKEN);
-
+    logger.d(refreshToken);
     if (accessToken == null || refreshToken == null) {
       state = null;
       return;

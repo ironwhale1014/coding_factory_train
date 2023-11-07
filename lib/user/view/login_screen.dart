@@ -6,6 +6,8 @@ import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:coding_factory_train/common/secure_storage/secure_storage.dart';
 import 'package:coding_factory_train/common/view/root_tap.dart';
+import 'package:coding_factory_train/user/model/user_model.dart';
+import 'package:coding_factory_train/user/provider/user_me_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,8 +27,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dio = Dio();
-
+    final state = ref.watch(userMeProvider);
     return DefaultLayout(
         child: SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -58,35 +59,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   obscureText: true),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () async {
-                  final rawString = '$username:$password';
-
-                  Codec<String, String> stringToBase64 = utf8.fuse(base64);
-
-                  String token = stringToBase64.encode(rawString);
-
-                  final resp = await dio.post("$ip/auth/login",
-                      options:
-                          Options(headers: {'Authorization': 'Basic $token'}));
-
-                  String accessToken = resp.data["accessToken"];
-                  String refreshToken = resp.data["refreshToken"];
-
-                  final storage = ref.read(secureStorageProvider);
-
-                  await storage.write(key: ACCESS_TOKEN, value: accessToken);
-                  await storage.write(key: REFRESH_TOKEN, value: refreshToken);
-
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => RootTap()));
-                },
+                onPressed: state is UserModelLoading
+                    ? null
+                    : () async {
+                        ref
+                            .read(userMeProvider.notifier)
+                            .login(id: username, pw: password);
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => const RootTap()));
+                      },
                 style: ElevatedButton.styleFrom(backgroundColor: PRIMARY_COLOR),
                 child: const Text("로그인"),
               ),
               TextButton(
                   onPressed: () async {},
-                  child: Text("회원가입"),
-                  style: TextButton.styleFrom(foregroundColor: Colors.black))
+                  style: TextButton.styleFrom(foregroundColor: Colors.black),
+                  child: const Text("회원가입"))
             ],
           ),
         ),

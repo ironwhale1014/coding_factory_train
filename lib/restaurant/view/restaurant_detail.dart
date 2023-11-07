@@ -13,16 +13,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletons/skeletons.dart';
 
-class RestaurantDetail extends ConsumerStatefulWidget {
-  const RestaurantDetail({super.key, required this.id});
+class RestaurantDetailScreen extends ConsumerStatefulWidget {
+  const RestaurantDetailScreen({super.key, required this.id});
 
+  static String get routeName => "RestaurantDetail";
   final String id;
 
   @override
-  ConsumerState<RestaurantDetail> createState() => _RestaurantDetailState();
+  ConsumerState<RestaurantDetailScreen> createState() => _RestaurantDetailState();
 }
 
-class _RestaurantDetailState extends ConsumerState<RestaurantDetail> {
+class _RestaurantDetailState extends ConsumerState<RestaurantDetailScreen> {
   final ScrollController controller = ScrollController();
 
   @override

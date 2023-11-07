@@ -1,5 +1,7 @@
 import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/secure_storage/secure_storage.dart';
+import 'package:coding_factory_train/user/provider/auth_provider.dart';
+import 'package:coding_factory_train/user/provider/user_me_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,20 +10,24 @@ final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();
   final storage = ref.watch(secureStorageProvider);
 
-  dio.interceptors.add(CustomInterceptor(storage: storage));
+  dio.interceptors.add(CustomInterceptor(storage: storage, ref: ref));
 
   return dio;
 });
 
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;
+  final Ref ref;
 
-  CustomInterceptor({required this.storage});
+  CustomInterceptor({
+    required this.storage,
+    required this.ref,
+  });
 
   // 요청을 보낼때
   @override
-  void onRequest(RequestOptions options,
-      RequestInterceptorHandler handler) async {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     if (options.headers["accessToken"] == "true") {
       options.headers.remove("accessToken");
       final token = await storage.read(key: ACCESS_TOKEN);
@@ -41,8 +47,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     logger.d(
-        "[RESPONSE] ${response.requestOptions.method} ${response.requestOptions
-            .uri}");
+        "[RESPONSE] ${response.requestOptions.method} ${response.requestOptions.uri}");
 
     return super.onResponse(response, handler);
   }
@@ -51,7 +56,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     // 401에러는 토큰에 문제 있을때 발생함
-    // accessToken문제로 에러가 날때 토큰을 재발급 받아 제대로ㅜ된 응답을 보여주는 로직
+    // accessToken문제로 에러가 날때 토큰을 재발급 받아 제대로된 응답을 보여주는 로직
     // 다른 에러는 그냥 에러를 보냄
     logger.e(err.requestOptions.method);
     logger.e(err.requestOptions.uri);
@@ -65,15 +70,17 @@ class CustomInterceptor extends Interceptor {
     final isStatus401 = err.response?.statusCode == 401;
     final isPathRefresh = err.requestOptions.path == '/auth/token';
 
+    logger.e(isStatus401 && !isPathRefresh);
+
     if (isStatus401 && !isPathRefresh) {
       final dio = Dio();
 
       try {
         final resp = await dio.post("$ip/auth/token",
             options:
-            Options(headers: {"authorization": "Bearer $refreshToken"}));
+                Options(headers: {"authorization": "Bearer $refreshToken"}));
+        logger.e(resp);
         final accessToken = resp.data["accessToken"];
-
         final options = err.requestOptions;
 
         options.headers.addAll({"authorization": "Bearer $accessToken"});
@@ -85,6 +92,7 @@ class CustomInterceptor extends Interceptor {
         return handler.resolve(response);
       } on DioException catch (e) {
         handler.reject(e);
+        ref.read(authProvider.notifier).logout();
       }
     }
 

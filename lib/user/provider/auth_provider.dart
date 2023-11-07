@@ -1,3 +1,4 @@
+import 'package:coding_factory_train/common/const/data.dart';
 import 'package:coding_factory_train/common/view/root_tap.dart';
 import 'package:coding_factory_train/common/view/splash_screen.dart';
 import 'package:coding_factory_train/restaurant/view/restaurant_detail.dart';
@@ -23,6 +24,10 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
+  void logout(){
+    ref.read(userMeProvider.notifier).logout();
+  }
+
   List<GoRoute> get routes => [
         GoRoute(
             path: "/",
@@ -31,8 +36,9 @@ class AuthProvider extends ChangeNotifier {
             routes: [
               GoRoute(
                   path: "restaurant/:rid",
+                  name: RestaurantDetailScreen.routeName,
                   builder: (_, state) =>
-                      RestaurantDetail(id: state.pathParameters["rid"]!))
+                      RestaurantDetailScreen(id: state.pathParameters["rid"]!))
             ]),
         GoRoute(
             path: "/splash",
@@ -44,23 +50,27 @@ class AuthProvider extends ChangeNotifier {
             builder: (_, __) => const LoginScreen()),
       ];
 
+
+
   // 앱 시작 시 토큰 존재 여부 확인 후 로그인으로 갈지 홈 스크린으로 갈지 확인 필요
   String? redirectLogic(GoRouterState state) {
     final UserModelBase? user = ref.read(userMeProvider);
-    final bool loggingIn = state.matchedLocation == "/login";
+    final bool loggingIn = state.fullPath == "/login";
+    logger.d(user);
+    logger.d(state.fullPath);
 
     if (user == null) {
       return loggingIn ? null : "/login";
     }
 
+    logger.d(user);
     if (user is UserModel) {
-      return loggingIn || state.matchedLocation == "/splash" ? "/" : null;
+      return loggingIn || state.fullPath == "/splash" ? "/" : null;
     }
 
     if (user is UserModelError) {
       return !loggingIn ? "/login" : null;
     }
-
     return null;
   }
 }

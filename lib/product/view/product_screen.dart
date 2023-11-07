@@ -4,6 +4,7 @@ import 'package:coding_factory_train/product/model/product_model.dart';
 import 'package:coding_factory_train/product/provider/product_provider.dart';
 import 'package:coding_factory_train/restaurant/view/restaurant_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
@@ -14,8 +15,8 @@ class ProductScreen extends StatelessWidget {
         itemBuilder: (context, index, model) {
           return InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => RestaurantDetail(id: model.restaurant.id)));
+                context.goNamed(RestaurantDetailScreen.routeName,
+                    pathParameters: {"rid": model.restaurant.id});
               },
               child: ProductCard.fromProductModel(model: model));
         },
