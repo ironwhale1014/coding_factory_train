@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const ProviderScope(child: _App()));
+  _App();
 }
 
 class _App extends StatelessWidget {
@@ -10,9 +9,10 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       theme: ThemeData(useMaterial3: true, fontFamily: 'NotoSans'),
       debugShowCheckedModeBanner: false,
+      home: Container(),
     );
   }
 }
