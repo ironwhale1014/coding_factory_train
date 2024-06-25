@@ -1,8 +1,10 @@
+import 'package:coding_factory_train/common/view/splash_screen.dart';
 import 'package:coding_factory_train/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const _App());
+  runApp(const ProviderScope(child: _App()));
 }
 
 class _App extends StatelessWidget {
@@ -13,7 +15,7 @@ class _App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(useMaterial3: true, fontFamily: 'NotoSans'),
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }
