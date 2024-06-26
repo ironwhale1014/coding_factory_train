@@ -83,7 +83,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           (root) => false);
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: PRIMATY_COLOR),
+                        backgroundColor: PRIMARY_COLOR),
                     child: const Text(
                       "로그인",
                       style: TextStyle(color: Colors.white),

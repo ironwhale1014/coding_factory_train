@@ -1,6 +1,6 @@
 import 'package:coding_factory_train/common/layout/default_layout.dart';
+import 'package:coding_factory_train/restaurant/view/restaurant_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RootTap extends ConsumerStatefulWidget {
@@ -25,11 +25,18 @@ class _RootTapState extends ConsumerState<RootTap>
   ];
 
   final List<Widget> _screens = [
-    Container(color: Colors.red),
+    const RestaurantScreen(),
     Container(color: Colors.green),
     Container(color: Colors.blue),
     Container(color: Colors.purple),
   ];
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.dispose();
+  }
 
   @override
   void initState() {

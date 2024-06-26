@@ -26,7 +26,7 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: obscureText,
       autofocus: autofocus,
       onChanged: onChanged,
-      cursorColor: PRIMATY_COLOR,
+      cursorColor: PRIMARY_COLOR,
       decoration: InputDecoration(
           hintText: hintText,
           errorText: errorText,
@@ -37,7 +37,7 @@ class CustomTextFormField extends StatelessWidget {
           border: baseBorder,
           enabledBorder: baseBorder,
           focusedBorder: baseBorder.copyWith(
-            borderSide: baseBorder.borderSide.copyWith(color: PRIMATY_COLOR),
+            borderSide: baseBorder.borderSide.copyWith(color: PRIMARY_COLOR),
           )),
     );
   }
