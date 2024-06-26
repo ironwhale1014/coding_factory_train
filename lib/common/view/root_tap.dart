@@ -1,3 +1,4 @@
+import 'package:coding_factory_train/common/layout/default_layout.dart';
 import 'package:flutter/material.dart';
 
 class RootTap extends StatelessWidget {
@@ -5,6 +6,9 @@ class RootTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text("root_tap"),);
+    return const DefaultLayout(
+        child: Center(
+      child: Text("root_Tap"),
+    ));
   }
 }

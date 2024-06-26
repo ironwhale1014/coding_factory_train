@@ -49,7 +49,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     }),
                 const SizedBox(height: 16),
                 CustomTextFormField(
-                  obscureText: true,
+                    obscureText: true,
                     hintText: "비밀번호를 입력하세요",
                     onChanged: (String value) {
                       password = value;
@@ -63,7 +63,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       logger.d(rawString);
                       final stringToBase64 = utf8.fuse(base64);
                       final String token = stringToBase64.encode(rawString);
-
 
                       //TODO: 로그인 할때는 Basic으로 해야됨
                       final response = await dio.post("$serverUrl/auth/login",
