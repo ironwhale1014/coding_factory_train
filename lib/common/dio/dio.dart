@@ -65,7 +65,6 @@ class CustomInterceptor extends Interceptor {
         return handler.reject(e);
       }
     }
-    handler.reject(err);
   }
 
   @override

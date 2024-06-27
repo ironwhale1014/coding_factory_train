@@ -15,12 +15,15 @@ class RestaurantScreen extends ConsumerWidget {
       return const Center(child: CircularProgressIndicator());
     }
 
-    return ListView.separated(
-        itemBuilder: (context, index) {
-          final pItem = data[index];
-          return RestaurantCard.fromModel(pItem: pItem);
-        },
-        separatorBuilder: (_, index) => const SizedBox(height: 8),
-        itemCount: data.length);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: ListView.separated(
+          itemBuilder: (context, index) {
+            final pItem = data[index];
+            return RestaurantCard.fromModel(pItem: pItem);
+          },
+          separatorBuilder: (_, index) => const SizedBox(height: 8),
+          itemCount: data.length),
+    );
   }
 }
